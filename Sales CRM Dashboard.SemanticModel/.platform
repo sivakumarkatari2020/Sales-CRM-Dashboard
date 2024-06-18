@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Sales CRM Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8a417938-dc05-419c-aeaa-3d5f2ff91352"
+  }
+}

@@ -1,0 +1,16 @@
+relationship AutoDetected_8e91ed87-8490-43d3-af4a-b41c05a2eff5
+	fromColumn: sales_pipeline.product
+	toColumn: products.product
+
+relationship AutoDetected_fb60f1d6-aa74-4ca1-84fc-f6c61349618b
+	fromColumn: sales_pipeline.sales_agent
+	toColumn: sales_teams.sales_agent
+
+relationship 0d77bd2c-a2b6-1cd7-2473-3c315381ca2f
+	fromColumn: sales_pipeline.account
+	toColumn: accounts.account
+
+relationship c46ab5be-d82e-18a9-f6e6-3bba576de864
+	fromColumn: sales_pipeline.close_date
+	toColumn: Calendar.Date
+

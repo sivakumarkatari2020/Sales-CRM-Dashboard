@@ -1,0 +1,12 @@
+expression Query1 =
+		let
+		    Source = "",
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"Query1"})
+		in
+		    #"Removed Columns"
+	lineageTag: 95add386-d355-4558-9be8-86f3b00a0eb5
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,133 @@
+table Calendar
+	lineageTag: 97d3f2a2-4657-4244-8de4-bcc4b29f3d04
+
+	column Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 477d9bfe-5bf7-4c4b-bc7a-2a68f544f595
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year =
+			
+			YEAR('Calendar'[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ba6f477-3182-482b-a9a7-d8afb165e555
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter =
+			
+			CONCATENATE("Q",QUARTER('Calendar'[Date]))
+		dataType: string
+		lineageTag: a9d16d97-26d7-446e-a33e-3884a3c78a0b
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month =
+			
+			MONTH('Calendar'[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 1431c1ba-cf53-4b0b-a27f-198d6bfa61f0
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName =
+			
+			SWITCH(
+			    'Calendar'[Month],
+			    1, "January",
+			    2, "February",
+			    3, "March",
+			    4, "April",
+			    5, "May",
+			    6, "June",
+			    7, "July",
+			    8, "August",
+			    9, "September",
+			    10, "October",
+			    11, "November",
+			    "December"
+			)
+		dataType: string
+		lineageTag: 120e84e5-9f13-4247-9abb-530626f0abd5
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day =
+			
+			DAY('Calendar'[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 550076a4-2f1b-481a-a809-938d45f62aa2
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekDay =
+			
+			WEEKDAY('Calendar'[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 6967be07-c7bc-40c9-871b-3acdf086c14e
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekName =
+			
+			SWITCH(
+			    WEEKDAY('Calendar'[Date]),
+			    1, "Sunday",
+			    2, "Monday",
+			    3, "Tuesday",
+			    4, "Wednesday",
+			    5, "Thursday",
+			    6, "Friday",
+			    "Saturday"
+			)
+		dataType: string
+		lineageTag: 3ea1149c-3c16-48c6-b3a5-fc78a02a9d87
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column isWeekend = ```
+			
+			IF(
+			    OR('Calendar'[WeekDay] == 7, 'Calendar'[WeekDay] == 1), 
+			    1,
+			    0
+			)
+			```
+		dataType: int64
+		formatString: 0
+		lineageTag: eb31dd0f-d1d6-46e4-9aa1-11dc27945b46
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source = CALENDARAUTO()
+
+	annotation PBI_Id = f54683ee13af4a7da98d9f2465eb14ec
+

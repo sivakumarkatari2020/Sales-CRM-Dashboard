@@ -1,0 +1,77 @@
+table accounts
+	lineageTag: 6201b21c-f392-432c-8b2f-6c15899337fd
+
+	column account
+		dataType: string
+		lineageTag: f8c29aa6-b3fc-4758-b67f-7a2d58e37397
+		summarizeBy: none
+		sourceColumn: account
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 538fb0c6-e8bb-4762-8146-39909dd36176
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_established
+		dataType: int64
+		formatString: 0
+		lineageTag: 32bed373-5bdf-4482-ab5c-681183815c1f
+		summarizeBy: none
+		sourceColumn: year_established
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: 09a9bbd8-1e77-411e-8aef-8fecaaac9c4e
+		summarizeBy: none
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column employees
+		dataType: int64
+		formatString: 0
+		lineageTag: 51b4bcfc-5744-40c3-80e6-41e2d191af48
+		summarizeBy: none
+		sourceColumn: employees
+
+		annotation SummarizationSetBy = Automatic
+
+	column office_location
+		dataType: string
+		lineageTag: 7221c12c-82e9-4c70-9af5-d62a3b50d6d1
+		summarizeBy: none
+		sourceColumn: office_location
+
+		annotation SummarizationSetBy = Automatic
+
+	column subsidiary_of
+		dataType: string
+		lineageTag: b77e9e5e-6791-4c3d-a741-a7e5c8199fa3
+		summarizeBy: none
+		sourceColumn: subsidiary_of
+
+		annotation SummarizationSetBy = Automatic
+
+	partition accounts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\ganap\OneDrive\Documents\Siva Workspace\PBI\Maven Analytics\Sales CRM Dashboard\Data\accounts.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"account", type text}, {"sector", type text}, {"year_established", Int64.Type}, {"revenue", type number}, {"employees", Int64.Type}, {"office_location", type text}, {"subsidiary_of", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

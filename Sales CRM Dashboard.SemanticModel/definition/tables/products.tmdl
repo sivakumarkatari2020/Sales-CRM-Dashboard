@@ -1,0 +1,42 @@
+table products
+	lineageTag: bfe57472-af3e-4728-a993-f7c48e1d0b0c
+
+	column product
+		dataType: string
+		lineageTag: bbc3fb3d-a6c3-4d4f-88f1-e8d632d7dcdf
+		summarizeBy: none
+		sourceColumn: product
+
+		annotation SummarizationSetBy = Automatic
+
+	column series
+		dataType: string
+		lineageTag: f1a6f5bd-8084-4add-a990-8d14e70d6596
+		summarizeBy: none
+		sourceColumn: series
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_price
+		dataType: int64
+		formatString: 0
+		lineageTag: daf6a4b5-5060-458c-a308-15da13263514
+		summarizeBy: none
+		sourceColumn: sales_price
+
+		annotation SummarizationSetBy = Automatic
+
+	partition products = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\ganap\OneDrive\Documents\Siva Workspace\PBI\Maven Analytics\Sales CRM Dashboard\Data\products.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product", type text}, {"series", type text}, {"sales_price", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

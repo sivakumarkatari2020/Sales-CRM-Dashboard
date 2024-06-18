@@ -1,0 +1,89 @@
+table sales_pipeline
+	lineageTag: c9137c9f-aa70-4ab2-b0a1-04cf0428a40d
+
+	column opportunity_id
+		dataType: string
+		lineageTag: 129a58cc-c916-4170-8617-a51d8d24008d
+		summarizeBy: none
+		sourceColumn: opportunity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_agent
+		dataType: string
+		lineageTag: d6cca2d9-982a-4bcd-bf62-3e5a9081df06
+		summarizeBy: none
+		sourceColumn: sales_agent
+
+		annotation SummarizationSetBy = Automatic
+
+	column product
+		dataType: string
+		lineageTag: 33047ed3-c1d4-4045-8b9f-c2d2a57074dd
+		summarizeBy: none
+		sourceColumn: product
+
+		annotation SummarizationSetBy = Automatic
+
+	column account
+		dataType: string
+		lineageTag: eefc2185-be89-4b31-b6f1-2028813f632b
+		summarizeBy: none
+		sourceColumn: account
+
+		annotation SummarizationSetBy = Automatic
+
+	column deal_stage
+		dataType: string
+		lineageTag: 8ba626ea-b4d4-42f9-87a1-921e89f77dee
+		summarizeBy: none
+		sourceColumn: deal_stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column engage_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: de27d074-0109-4739-ac62-5931f3844d8c
+		summarizeBy: none
+		sourceColumn: engage_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column close_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9ccfcc18-da68-4e9c-bd46-789fc0bd1446
+		summarizeBy: none
+		sourceColumn: close_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column close_value
+		dataType: int64
+		formatString: 0
+		lineageTag: b00b2e46-6864-4fac-a53f-ddc12c7b522d
+		summarizeBy: sum
+		sourceColumn: close_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sales_pipeline = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\ganap\OneDrive\Documents\Siva Workspace\PBI\Maven Analytics\Sales CRM Dashboard\Data\sales_pipeline.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"opportunity_id", type text}, {"sales_agent", type text}, {"product", type text}, {"account", type text}, {"deal_stage", type text}, {"engage_date", type date}, {"close_date", type date}, {"close_value", Int64.Type}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([close_date] <> null))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

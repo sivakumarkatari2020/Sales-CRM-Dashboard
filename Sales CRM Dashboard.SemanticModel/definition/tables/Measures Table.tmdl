@@ -1,0 +1,65 @@
+table 'Measures Table'
+	lineageTag: cf67ba12-3c47-4dfa-96db-5775e61c09c7
+
+	measure 'Deals Won' =
+			
+			CALCULATE(
+			    COUNT(sales_pipeline[deal_stage]),
+			    FILTER(
+			        sales_pipeline,
+			        sales_pipeline[deal_stage] = "Won"
+			    )
+			)
+		formatString: 0
+		lineageTag: e154358a-3c75-4e05-bcb6-c35dd553d529
+
+	measure 'Deals Lost' =
+			
+			CALCULATE(
+			    COUNT(sales_pipeline[deal_stage]),
+			    FILTER(
+			        sales_pipeline,
+			        sales_pipeline[deal_stage] = "Lost"
+			    )
+			)
+		formatString: 0
+		lineageTag: 01afc948-49ce-4c68-9086-ff8165ee4211
+
+	measure 'Total Opportunities' =
+			
+			COUNTA(sales_pipeline[account])
+		formatString: 0
+		lineageTag: 92ecd68c-9138-4ba1-91b4-3a6dbbb0d6d5
+
+	measure 'Win %' =
+			
+			DIVIDE([Deals Won], [Total Opportunities], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2e56d23b-998b-4fab-9484-02066232beb6
+
+	measure 'Lost %' =
+			
+			DIVIDE([Deals Lost], [Total Opportunities], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 279157ec-10cb-4e05-bd88-0c7ac48a9ffb
+
+	column Column
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 46d67518-44a2-4b21-b49b-bdf658ccfffe
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measures Table' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = c70d3ad25baa46318bf875b60adfea6b
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
